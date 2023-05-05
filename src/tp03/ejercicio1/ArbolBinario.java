@@ -1,6 +1,6 @@
 package tp03.ejercicio1;
 
-import tp02.ejercicio2.*;
+import tp02.ejercicio2.ColaGenerica;
 
 public class ArbolBinario<T> {
 	private T dato;
@@ -130,8 +130,35 @@ public class ArbolBinario<T> {
 				cola.encolar(null);
 				altura++;
 			}
+		}
 	}
 	
+	
+	/*
+	 Arbol de personajes, retornar un personaje de tipo princesa que sea accesible (el camino hacia ella
+	 no pasa por un dragon). Se dispone de los metodos esPrincesa():boolean y esDragon():boolean. El metodo debe
+	 serimplementado en la clase ArbolBinario.
+	 */
+	
+	public Personaje princesaAccesible() {
+		Personaje p = new Personaje();
+		if (!this.esVacio()) {
+			this.princesaAccesible(p);
+		}
+		return p;
 	}
-
+	
+	private void princesaAccesible(Personaje p) {
+		if (this.getDato().esPrincesa()) {
+			p = this.getDato();
+		} else if (this.getDato().esDragon()) {
+				if (this.tieneHijoIzquierdo()&&!this.getHijoIzquierdo().esDragon()) {
+					this.getHijoIzquierdo().princesaAccesible(p);
+				}
+				if (this.tieneHijoDerecho()&&!this.getHijoDerecho().esDragon()) {
+					this.getHijoDerecho().princesaAccesible(p);
+				}
+		}
+	}
 }
+

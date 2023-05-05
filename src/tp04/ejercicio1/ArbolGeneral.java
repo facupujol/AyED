@@ -152,7 +152,7 @@ public class ArbolGeneral<T> {
 		if (this.getDato() == dato) {
 			return this;
 		}
-		else {
+		else if (this.tieneHijos()) {
 			ListaGenerica<ArbolGeneral<T>> hijos = this.getHijos();
 			hijos.comenzar();
 			while (!hijos.fin()) {
@@ -162,5 +162,41 @@ public class ArbolGeneral<T> {
 		return null;
 	}
 	
+	/*
+	 Si el arbol es creciente (cada nivel tiene exactamente nivel+1 nodos) retornar el nodo con mas hijos
+	 */
+	
+	public ArbolGeneral<T> esCrecienteYNodoMaxHijos(){
+		ColaGenerica<ArbolGeneral<T>> cola = new ColaGenerica<ArbolGeneral<T>>();
+		ArbolGeneral<T> arbolAux; 
+		ArbolGeneral<T> maxHijos = null;
+		int nivel = 0; int nodosNivelActual = 0; int maxCantHijos = Integer.MIN_VALUE;
+		cola.encolar(this);
+		cola.encolar(null);
+		while (!cola.esVacia()) {
+			arbolAux = cola.desencolar();
+			if (arbolAux != null) {
+				nodosNivelActual++;
+				if (arbolAux.tieneHijos()) {
+					ListaGenerica<ArbolGeneral<T>> hijos = arbolAux.getHijos();
+					if (hijos.tamanio() > maxCantHijos) {
+						maxCantHijos = hijos.tamanio();
+						maxHijos = arbolAux;
+					}
+					hijos.comenzar();
+					while (!hijos.fin()) {
+						cola.encolar(hijos.proximo());
+					}
+				}
+			} else if (!cola.esVacia()) {
+				if (nodosNivelActual != (nivel+1)) {
+					return null;
+				}
+				nivel++;
+				nodosNivelActual = 0;
+			}
+		}
+		return maxHijos;
+	}
 
 }

@@ -6,7 +6,11 @@ import tp04.ejercicio1.ArbolGeneral;
 
 public class Parcial {
 	
+	ArbolGeneral<Integer> arbol;
 	
+	public Parcial (ArbolGeneral<Integer> a){
+		this.arbol = a;
+	}
 	
 	/*
 	 Devolver un camino q cumpla con la siguiente condicion: la cantidad de numeros pares
@@ -81,7 +85,12 @@ public class Parcial {
 		}
 	}
 	
-	public ListaGenerica<ArbolGeneral<Integer>> resolve3(ArbolGeneral<Integer> arbol){
+	/*
+	 Devolver el camino determinado por el valor que posee cada nodo
+	 */
+	
+	
+	public ListaGenerica<ArbolGeneral<Integer>> resolver3(ArbolGeneral<Integer> arbol){
 		ListaGenerica<ArbolGeneral<Integer>> lista = new ListaEnlazadaGenerica<ArbolGeneral<Integer>>();
 		if (!arbol.esVacio()) {
 			resolver3(lista, arbol);
@@ -96,6 +105,70 @@ public class Parcial {
 			ArbolGeneral<Integer> arbolAux = hijos.elemento(a.getDato());
 			resolver3(l, arbolAux);
 		}
-
 	}
+	
+	/*
+	 Retornar una lista con la suma de todos los datos contenidos en los nodos
+	 del arbol que tiene un numero impar de numeros hijos
+	 */
+	
+	public ListaGenerica<Integer> resolver4(){
+		ListaGenerica<Integer> lista = new ListaEnlazadaGenerica<Integer>();
+		if (!this.arbol.esVacio()) {
+			this.resolver4(lista, arbol);
+		}
+		return lista;
+	}
+	
+	private void resolver4 (ListaGenerica<Integer> l, ArbolGeneral<Integer> a) {
+		if (!a.tieneHijos()) {
+			ListaGenerica<ArbolGeneral<Integer>> hijos = arbol.getHijos();
+			hijos.comenzar();
+			while (!hijos.fin()) {
+				this.resolver4(l, hijos.proximo());
+			}
+			if (hijos.tamanio() % 2 != 0) {
+				hijos.comenzar();
+				int total = 0;
+				while (!hijos.fin()) {
+					total+= hijos.proximo().getDato();
+				}
+				l.agregarFinal(total);
+			}
+		}
+	}
+	
+	/*
+	 Imprimir el camino a la hoja mas lejana
+	 */
+	
+	public ListaGenerica<ArbolGeneral<Integer>> resolver5(ArbolGeneral<Integer> arbol){
+		ListaGenerica<ArbolGeneral<Integer>> listaMax = new ListaEnlazadaGenerica<ArbolGeneral<Integer>>();
+		ListaGenerica<ArbolGeneral<Integer>> lista = new ListaEnlazadaGenerica<ArbolGeneral<Integer>>();
+		if (!arbol.esVacio()) {
+			resolver5(listaMax, lista, arbol);
+		}
+		return listaMax;
+	}
+	
+	private void resolver5(ListaGenerica<ArbolGeneral<Integer>> listaRes, ListaGenerica<ArbolGeneral<Integer>> l2, ArbolGeneral<Integer> arbol){
+		if (!arbol.esVacio()) {
+			l2.agregarFinal(arbol);
+			if (arbol.esHoja()) {
+				if (listaRes.tamanio() < l2.tamanio()) {
+					listaRes = l2.clonar();
+				}
+				l2.eliminarEn(l2.tamanio());
+			} else {
+
+				ListaGenerica<ArbolGeneral<Integer>> hijos = arbol.getHijos();
+				hijos.comenzar();
+				while (!hijos.fin()) {
+					resolver5(listaRes, l2, hijos.proximo());
+				}
+				l2.eliminarEn(l2.tamanio());
+			}
+		}
+	}
+	
 }
