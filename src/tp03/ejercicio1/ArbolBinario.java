@@ -140,7 +140,7 @@ public class ArbolBinario<T> {
 	 serimplementado en la clase ArbolBinario.
 	 */
 	
-	public Personaje princesaAccesible() {
+	/* public Personaje princesaAccesible() {
 		Personaje p = new Personaje();
 		if (!this.esVacio()) {
 			this.princesaAccesible(p);
@@ -151,7 +151,7 @@ public class ArbolBinario<T> {
 	private void princesaAccesible(Personaje p) {
 		if (this.getDato().esPrincesa()) {
 			p = this.getDato();
-		} else if (this.getDato().esDragon()) {
+		} else if (!this.getDato().esDragon()) {
 				if (this.tieneHijoIzquierdo()&&!this.getHijoIzquierdo().esDragon()) {
 					this.getHijoIzquierdo().princesaAccesible(p);
 				}
@@ -160,5 +160,7 @@ public class ArbolBinario<T> {
 				}
 		}
 	}
+	*/
+	
 }
 

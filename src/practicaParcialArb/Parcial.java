@@ -171,4 +171,21 @@ public class Parcial {
 		}
 	}
 	
+	/*
+	 Gematria
+	 */
+	
+	public int gematria(ArbolBinario<Integer> a, int valor) {
+		int resta = valor - a.getDato();
+		if (a.esHoja()&& resta==0) {
+			return 1;
+		} else {
+			
+		}
+		
+		
+		return 0;
+	}
+	
+	
 }
